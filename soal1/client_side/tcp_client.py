@@ -102,7 +102,7 @@ def data_pemain(total_request, table_data):
         texec[n] = threading.Thread(target=getdatapemain, args=(random.randint(1, 20),))
         texec[n].start()
 
-    for k in range(total_request):
+    for n in range(total_request):
         if (texec[n]):
             total_response += 1
         texec[n].join()

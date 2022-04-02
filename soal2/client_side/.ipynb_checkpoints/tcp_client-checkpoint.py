@@ -35,7 +35,6 @@ def make_secure_socket(SERVER_ADDR):
         context.load_verify_locations(os.getcwd() + '/domain.crt')
 
         client_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        # server_address = (destination_address, port)
         logging.warning(f"connecting to {SERVER_ADDR}")
         client_sock.connect(SERVER_ADDR)
         secure_socket = context.wrap_socket(client_sock,SERVER_ADDR)
@@ -86,7 +85,7 @@ def getdatapemain(nomor=0,is_secure=False):
     hasil = send_command(cmd,is_secure=is_secure)
     return hasil
 
-def lihatversi(is_secure=False):
+def versi(is_secure=False):
     cmd=f"versi \r\n\r\n"
     hasil = send_command(cmd,is_secure=is_secure)
     return hasil
@@ -98,17 +97,16 @@ def data_pemain(total_request, table_data):
     catat_awal = datetime.datetime.now()
 
     for n in range(total_request):
-        # bagian ini merupakan bagian yang mengistruksikan eksekusi getdatapemain secara multithread
         texec[n] = threading.Thread(target=getdatapemain, args=(random.randint(1, 20),))
         texec[n].start()
 
-    for k in range(total_request):
+    for n in range(total_request):
         if (texec[n]):
             total_response += 1
         texec[n].join()
 
-    catat_akhir = datetime.datetime.now()
-    selesai = catat_akhir - catat_awal
+    akhir = datetime.datetime.now()
+    selesai = akhir - awal
     table_data.append([total_request, total_request, total_response, selesai])
 
 if __name__ == '__main__':
